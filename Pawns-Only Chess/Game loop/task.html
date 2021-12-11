@@ -1,0 +1,69 @@
+<h5>Description</h5>
+
+<p>We need to make our program more interactive. First, it will ask players for their names. After that, the software will prompt each player to take turns and make a move. We are going to implement pawn moves later, so, for now, it doesn't matter which move is done at the current stage. However, the input should have the correct format. It should follow the <code class="java">x0y1</code> format where <code class="java">x0</code> is the coordinates of a pawn that the user wants to move, and <code class="java">y1</code> are the coordinates of the final position. For example, at the current stage, the valid moves are <code class="java">a2a4</code>, <code class="java">d4d8</code>, <code class="java">a1h8</code>, and so on. Moves like <code class="java">j2j4</code>, <code class="java">h0h4</code>, <code class="java">a2a4a</code> are deemed to be invalid.</p>
+
+<p>If a player prompts an invalid move, the game should print a warning and ask for another move. Terminate the program after the <code class="java">exit</code> command.</p>
+
+<h5>Objectives</h5>
+
+<p>After <code class="java">Pawns-Only Chess</code> is printed, prompt each player for their names with <code class="java">First Player's name:</code> and <code class="java">Second Player's name:</code> holders. After that, print the chessboard (see Example 1).</p>
+
+<p>The program should prompt each player for a move by printing <code class="java">&lt;first player name&gt;'s turn:</code> or <code class="java">&lt;second player name&gt;'s turn:</code> where <code class="java">&lt;first player name&gt;</code> and <code class="java">&lt;second player name&gt;</code> are the players' names. If the move follows the correct format, proceed to the next one. If the input doesn't follow the correct format, print <code class="java">Invalid Input</code> and ask for another move (see Example 1).</p>
+
+<p>If a player inputs <code class="java">exit</code>, terminate the program and print <code class="java">Bye!</code></p>
+
+<h5>Examples</h5>
+
+<p>The greater-than symbol followed by a space (<code class="java">&gt; </code>) represents the user input. Note that it's not part of the input.</p>
+
+<p><strong>Example 1:</strong></p>
+
+<pre><code class="language-no-highlight">Pawns-Only Chess
+First Player's name:
+&gt; John
+Second Player's name:
+&gt; Amelia
+  +---+---+---+---+---+---+---+---+
+8 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+7 | B | B | B | B | B | B | B | B |
+  +---+---+---+---+---+---+---+---+
+6 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+5 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+4 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+3 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+2 | W | W | W | W | W | W | W | W |
+  +---+---+---+---+---+---+---+---+
+1 |   |   |   |   |   |   |   |   |
+  +---+---+---+---+---+---+---+---+
+    a   b   c   d   e   f   g   h
+
+John's turn:
+&gt; a2a3
+Amelia's turn:
+&gt; b7c4
+John's turn:
+&gt; h8f2
+Amelia's turn:
+&gt; b2b5
+John's turn:
+&gt; s2s3
+Invalid Input
+John's turn:
+&gt; d9b2
+Invalid Input
+John's turn:
+&gt; s0f2
+Invalid Input
+John's turn:
+&gt; a2a3b
+Invalid Input
+John's turn:
+&gt; b2b3
+Amelia's turn:
+&gt; exit
+Bye!</code></pre>

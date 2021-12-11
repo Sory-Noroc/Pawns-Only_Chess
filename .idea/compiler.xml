@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="17">
+      <module name="Pawns-Only_Chess.Pawns-Only_Chess-task-build-classes-kotlin.main" target="11" />
+      <module name="Pawns-Only_Chess.Pawns-Only_Chess-task-build-reports-tests.main" target="11" />
+      <module name="Pawns-Only_Chess.Pawns-Only_Chess-task-build-test-results.main" target="11" />
+      <module name="Pawns-Only_Chess.Pawns-Only_Chess-task-build-tmp.main" target="11" />
+      <module name="Pawns-Only_Chess.Pawns-Only_Chess-task-out.main" target="11" />
+      <module name="Pawns-Only_Chess.Pawns-Only_Chess-task.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-For_loop_and_lists-Circular_shift.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-For_loop_and_lists-Count_occurrences.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-For_loop_and_lists-For_loops_task.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-For_loop_and_lists-Number_in_a_set.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-For_loop_and_lists-The_index_of_the_first_max.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-For_loop_and_lists-Theory.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-For_loop_and_lists-Triples.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-The_main___function-Change_program_arguments.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-The_main___function-Fix_the_program.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-The_main___function-Printing_arguments.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-The_main___function-Theory.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-The_main___function-Using_arguments.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-Work_with_MutableLists-Adding_lists.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-Work_with_MutableLists-Empty.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-Work_with_MutableLists-Guard_On_The_Gate.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-Work_with_MutableLists-Help_the_Lord_Commander.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-Work_with_MutableLists-Playing_with_numbers.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-Work_with_MutableLists-Theory.main" target="11" />
+      <module name="Pawns-Only_Chess.Topics-Work_with_MutableLists-Yet_another_list.main" target="11" />
+      <module name="Pawns-Only_Chess.util.main" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

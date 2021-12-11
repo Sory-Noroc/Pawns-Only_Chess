@@ -1,0 +1,16 @@
+type: code
+files:
+- name: src/Main.kt
+  visible: true
+  text: |-
+    fun main() {
+        val firstList = readLine()!!.split(' ').map { it }.toMutableList()
+        val secondList = readLine()!!.split(' ').map { it }.toMutableList()
+        // do not touch the lines above
+        // write your code here
+
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/14911#comment
+status: Solved
+record: -1

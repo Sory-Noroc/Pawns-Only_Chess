@@ -1,0 +1,11 @@
+type: code
+files:
+- name: src/Main.kt
+  visible: true
+  text: "fun main() {\n    val backFromTheWall = readLine()!!.split(\", \").map {\
+    \ it }.toMutableList()\n    val returnedWatchman = readLine()!!\n    // do not\
+    \ touch the lines above\n    // write your code here   \n\n}"
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/14913#comment
+status: Solved
+record: -1

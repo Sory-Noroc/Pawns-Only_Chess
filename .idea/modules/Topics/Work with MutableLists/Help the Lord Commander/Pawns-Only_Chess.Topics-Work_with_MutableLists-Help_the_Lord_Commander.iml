@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id=":Topics-Work_with_MutableLists-Help_the_Lord_Commander" external.linked.project.path="$MODULE_DIR$/../../../../../Topics/Work with MutableLists/Help the Lord Commander" external.root.project.path="$MODULE_DIR$/../../../../.." external.system.id="GRADLE" external.system.module.group="Pawns-Only Chess" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../../../Topics/Work with MutableLists/Help the Lord Commander">
+      <excludeFolder url="file://$MODULE_DIR$/../../../../../Topics/Work with MutableLists/Help the Lord Commander/.gradle" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../../../Topics/Work with MutableLists/Help the Lord Commander/build" />
+      <excludeFolder url="file://$MODULE_DIR$/../../../../../Topics/Work with MutableLists/Help the Lord Commander/out" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

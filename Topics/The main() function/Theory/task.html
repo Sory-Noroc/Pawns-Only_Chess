@@ -1,0 +1,103 @@
+<h2>The main() function</h2>
+<html>
+ <head></head>
+ <body>
+  <p>I guess you’ve been asking yourself the question of why we have to write exactly <code class="language-kotlin">fun main() {}</code> in every program. Now we’re going to get to the bottom of this!</p> 
+  <h5>The main() function</h5> 
+  <p>So, take a closer look at the <code class="language-kotlin">main()</code> function. In fact, it’s a very common thing: you can do exactly what you do with any other function. The only difference is that it is the entry point of the program. This means that the running of the program begins by calling this function.</p> 
+  <p>Let’s take a closer look at what the <code class="language-kotlin">main()</code> consists of:</p> 
+  <pre><code class="language-kotlin">fun main() {}</code></pre> 
+  <ul> 
+   <li><code class="language-kotlin">fun</code> is a keyword that shows that <code class="language-kotlin">main()</code> is a function. Just a regular function;</li> 
+   <li><code class="language-kotlin">main</code> is the function name. It is important to know that we cannot change it: if we change it, for example, to <code class="language-kotlin">Main()</code>, the program will compile but not start;</li> 
+   <li>and finally, the body of the function, as you well know, will be placed in curly braces.</li> 
+  </ul> 
+  <p>In fact, there may still be input parameters — <code class="language-kotlin">args</code> — in the <code class="language-kotlin">main()</code> syntax; it’s a non-binding part of the declaration of the <code class="language-kotlin">main()</code>, and we'll talk more about it later.</p> 
+  <p>So, <span style="color: #000000;">a</span>nything you can do with a usual function, instead of renaming, can be done with <code class="language-kotlin">main()</code>.<span style="color: #66cc66;"> </span></p> 
+  <p>Its main feature is that its existence is mandatory: without it, the program will not start. But the <code class="language-kotlin">main()</code> can also be called on purpose. For example, it can be called by itself:</p> 
+  <pre><code class="language-kotlin">var decrease = 3
+
+fun main() {
+    if(decrease == 0)
+        return
+    decrease = decrease - 1
+    println(decrease)
+    main()
+}</code></pre> 
+  <p>In this program, each call to <code class="language-kotlin">main()</code> decreases the value of the global variable <code class="language-kotlin">decrease</code> by 1 and prints the current value, until it is equal to 0. The word "global" means that this variable is accessible from anywhere in the program, inter alia in <code class="language-kotlin">main()</code> function.</p> 
+  <p>The output of this code looks like this:</p> 
+  <pre><code class="language-kotlin">2
+1
+0</code></pre> 
+  <p> </p> 
+  <h5>Arguments of the main function</h5> 
+  <p>Actually, the <code class="language-kotlin">main()</code> function may have input parameters. They should be called <code class="language-kotlin">args</code> and stored in an array of strings. And the syntax of the <code class="language-kotlin">main()</code> will look like this:</p> 
+  <pre><code class="language-kotlin">fun main(args: Array&lt;String&gt;) {}</code></pre> 
+  <p>Work with <code class="language-kotlin">args</code> is carried out in the same way as with other arrays: for example, <code class="language-kotlin">args.size</code> will return the number of arguments, and <code class="language-kotlin">args[1]</code> will return the second argument to the program. </p> 
+  <p>Yes, but what's it for?</p> 
+  <p>In simple words, the arguments of the <code class="language-kotlin">main()</code> function are the arguments of the program. You’ve probably used the opportunity of setting it many times in your life, for example, when you’ve opened a file with the "Open with...": in this case the file location is passed using the program arguments. </p> 
+  <p>So, using the <code class="language-kotlin">main()</code> arguments, we transmit some additional external data to the program itself. </p> 
+  <h5>Working with the command line</h5> 
+  <p>In fact, we can pass arguments to the program using the tools of the IDE or the command line. You already know how it can be done with the IDE. The other way is a little more complicated.</p> 
+  <p>Consider it in more detail: it is a one-size-fits-all approach, and command line skills will be needed many times in your programmer's path anyway. For example, in simple cases, it may obviate the need to create a graphical interface to interact with the user. Don’t be afraid if this approach seems too complicated now: this is just an example of how to set the program’s arguments exactly with the command line.</p> 
+  <p></p>
+  <div class="alert alert-primary">
+   To send command line arguments to your application, you need a pre-compiled program.
+  </div>
+  <p></p> 
+  <p>So, consider how you can pass arguments through the console: firstly, you need a compiled program. When you have one, you call the command line. After that, you run the application with the following command:</p> 
+  <pre><code class="language-kotlin">$ java -jar filename.jar args</code>
+</pre> 
+  <p>However, in this command, after you specify a file <code class="language-kotlin">filename</code> with .jar extension, you can pass exactly program arguments <code class="language-kotlin">args</code> separated by a space. Now let’s look at how all of this works in a very simple example.</p> 
+  <h5>A practical example</h5> 
+  <p>Let's look at the following code:</p> 
+  <pre><code class="language-kotlin">fun main(args: Array&lt;String&gt;) {
+    println(args[0])
+    println(args[1])
+}</code>
+</pre> 
+  <p>This program outputs the first two strings that have been specified as the program’s arguments. Let this program be in the file named <code class="language-kotlin">print_args.kt</code> . And let us pass on, for example, the following arguments of the program (or arguments of <code class="language-kotlin">main()</code> function): "Hello,", "Kotlin!". Do it with the command line:</p> 
+  <pre><code class="language-kotlin">$ java -jar print_args.jar Hello, Kotlin!</code>
+</pre> 
+  <p>Then the result will be as follows:</p> 
+  <p><img alt="" src="https://ucarecdn.com/e1beae18-0bde-4992-b256-f4ca74f4a6e5/-/crop/1081x84/3,0/-/preview/"></p> 
+  <p> So our code has been implemented the following way:</p> 
+  <pre><code class="language-kotlin">fun main(args: Array&lt;String&gt;) {
+    println(args[0]) // Hello,
+    println(args[1]) // Kotlin!
+}</code>
+</pre> 
+  <p>If we instead pass "Love", "Kotlin!", the following will be printed:</p> 
+  <p><img alt="" src="https://ucarecdn.com/476d65e0-1114-4e7f-92e4-053572670809/"></p> 
+  <p>So, by not changing anything in the code, we affect the program’s result by setting arguments of <code class="language-kotlin">main()</code>.</p> 
+  <h5>With or without arguments?</h5> 
+  <p>As we mentioned above, the <code class="language-kotlin">main()</code> function can exist with or without arguments. By way of illustration, let's run the same code that doesn’t use the program’s arguments in two ways:</p> 
+  <pre><code class="language-kotlin">fun main(args: Array&lt;String&gt;) {
+    val firstName = "Luke"
+    val lastName = "Skywalker"
+    println(firstName + " " + lastName) // Luke Skywalker
+}</code></pre> 
+  <pre><code class="language-kotlin">fun main() {
+    val firstName = "Luke"
+    val lastName = "Skywalker"
+    println(firstName + " " + lastName) // Luke Skywalker
+}</code></pre> 
+  <p>So everything works!</p> 
+  <p>Moreover, there will be no error when your file will contain both versions of the <code class="language-kotlin">main()</code> – with and without arguments. The program will just begin by executing <code class="language-kotlin">main(args: Array &lt;String&gt;) {}</code>:</p> 
+  <pre><code class="language-kotlin">fun main(args: Array&lt;String&gt;) {
+    println(args[0]) // Love
+    println(args[1]) // Kotlin!
+}
+
+fun main() {
+    println("Hello, World!")
+} // will not be called</code>
+</pre> 
+  <p>However, you should remember that there <strong>cannot be</strong> multiple <code class="language-kotlin">main()</code> declarations in a file with arguments or multiple <code class="language-kotlin">main()</code> without them at the same time! Both variants of the <code class="language-kotlin">main()</code> declaration can be presented in only one instance, as this rule is appropriate for any other function. </p> 
+  <p>What about the other type, the other number and another name of arguments? Of course, you may have a <code class="language-kotlin">main()</code> function with completely different input parameters in one file, for example, it can be <code class="language-kotlin">main(arg: Int)</code> or <code class="language-kotlin">main(a: Double, b: String)</code>, but then it will no longer be an entry point. It’ll be just a common function. In order for the program to start, the program file must contain exactly a function with the signature <code class="language-kotlin">main()</code> or <code class="language-kotlin">main(args: Array&lt;String&gt;)</code>.</p> 
+  <p>To sum up, you can use <code class="language-kotlin">args</code> when you need to work with program arguments. But if your program does not require command-line arguments the command-line arguments could be omitted. Before Kotlin 1.3, you had to write <code class="language-kotlin">main(args: Array&lt;String&gt;)</code>, but now you don't need to.</p> 
+  <h5>Summary</h5> 
+  <p>So the program starts with <code class="language-kotlin">main()</code>: now you know it well, and you know how to set the arguments of this function and why it is needed. Now you can transfer data to the program and change the result of its execution without changing the code. And you’ve also learned how to do it via the command line. This is certainly a necessary experience for a programmer.</p> 
+  <p>Good luck with the tasks! </p>
+ </body>
+</html>
