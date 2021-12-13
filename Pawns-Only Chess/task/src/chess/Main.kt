@@ -1,5 +1,32 @@
 package chess
 
+class Pawn(private val color: Char) {
+    private var hasFirstMove = true
+
+    fun moveTo(player: Player, x: Char, y: Char) {
+        if (color == player.pawnColor) {
+
+            hasFirstMove = false
+        } else {
+            TODO()
+        }
+    }
+}
+
+class Square(private var representation: Char) {
+    // representation: B - black pawn, W - white pawn, " " - no pawn
+    override fun toString(): String = representation.toString()
+    var pawn: Pawn? = null
+
+    fun putPawn(color: Char) {
+        pawn = Pawn(color)
+        representation = color
+    }
+
+    fun movePawn(player: Player, x: Char, y: Char) {
+        pawn?.moveTo(player, x, y)
+    }
+}
 
 class ChessTable(private val size:Int) {
     // Horizontal line
@@ -7,7 +34,7 @@ class ChessTable(private val size:Int) {
     private val filesList = listOf(' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
     private val files: String = filesList.joinToString("   ")
     private val rows = size downTo 1
-    private val grid = mutableMapOf<Int, MutableMap<Char, Char>>()
+    private val grid = mutableMapOf<Int, MutableMap<Char, Square>>()
 
     var table: String = ""
     get() {
@@ -23,27 +50,27 @@ class ChessTable(private val size:Int) {
 
     private fun makeEmptyGrid() {
         for (i in rows) {
-            val filesMap = mutableMapOf<Char, Char>()
+            val filesMap = mutableMapOf<Char, Square>()
             for (j in 'a'..'h') {
-                filesMap[j] = ' '
+                filesMap[j] = Square(' ')
             }
             grid[i] = filesMap
         }
     }
 
     private fun populateGrid() {
-        grid[size-1]?.forEach { grid[size-1]?.set(it.key, 'B') }
-        grid[2]?.forEach { grid[2]?.set(it.key, 'W') }
+        grid[size-1]?.forEach { it.value.putPawn('W') }
+        grid[2]?.forEach { it.value.putPawn('B') }
     }
 
-    private fun buildRow(rank: Int, row: List<Char>): String {
+    private fun buildRow(rank: Int, row: List<String>): String {
         return "$rank " + row.joinToString(" | ", prefix="| ", postfix=" | ")
     }
 
     private fun assembleTable(): String {
         val tempList = mutableListOf<String>()
         grid.forEach { (k, v) ->
-            tempList.add(buildRow(k, v.values.toList()) + '\n')
+            tempList.add(buildRow(k, v.values.map { it.toString() }) + '\n')
         } // When accessing 'table' it will return this line
         return tempList.joinToString(line, prefix=line, postfix=line) + files
     }
@@ -72,20 +99,10 @@ class Mediator(private val player1: Player, private val player2: Player,
             println("Invalid Input")
             false
             }
-        /* return try {
-            assert(input.length == 4)
-            assert(table.filesList
-                .containsAll(setOf(input[0], input[2])))
-            assert(table.rows.map { it.toString()[0] }
-                .containsAll(setOf(input[1], input[3])))
-            true
-        } catch (e: Exception) {
-            println("Invalid Input")
-            false */
     }
 }
 
-data class Player(val name: String, val pawnColor: String)
+data class Player(val name: String, val pawnColor: Char)
 
 fun main() {
 
@@ -94,9 +111,9 @@ fun main() {
 
     println(title)
     println("First Player's name:")
-    val player1 = Player(readLine()!!, "W")
+    val player1 = Player(readLine()!!, 'W')
     println("Second Player's name:")
-    val player2 = Player(readLine()!!, "B")
+    val player2 = Player(readLine()!!, 'B')
     val mediator = Mediator(player1, player2, pawnsTable)
     println(pawnsTable.table)
     while (true) {
