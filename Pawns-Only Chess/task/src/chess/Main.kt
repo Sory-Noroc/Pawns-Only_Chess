@@ -53,17 +53,17 @@ class ChessTable(private val size:Int) {
     }
 }
 
-class Mediator(private val player1: String, private val player2: String,
+class Mediator(private val player1: Player, private val player2: Player,
               private val table: ChessTable) {
     private val prompt = "'s turn:"
-    private var turn = player1
+    private var turner = player1
 
     fun currentPrompt(): String {
-        return turn + prompt
+        return turner.name + prompt
     }
 
     fun changeTurn() {
-        turn = if (turn == player1) player2 else player1
+        turner = if (turner == player1) player2 else player1
     }
 
     fun isInputValid(input: String): Boolean {
@@ -85,6 +85,8 @@ class Mediator(private val player1: String, private val player2: String,
     }
 }
 
+data class Player(val name: String, val pawnColor: String)
+
 fun main() {
 
     val title = "Pawns-Only Chess"
@@ -92,9 +94,9 @@ fun main() {
 
     println(title)
     println("First Player's name:")
-    val player1 = readLine()!!
+    val player1 = Player(readLine()!!, "W")
     println("Second Player's name:")
-    val player2 = readLine()!!
+    val player2 = Player(readLine()!!, "B")
     val mediator = Mediator(player1, player2, pawnsTable)
     println(pawnsTable.table)
     while (true) {
