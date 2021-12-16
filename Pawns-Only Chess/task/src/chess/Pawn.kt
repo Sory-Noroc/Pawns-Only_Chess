@@ -1,16 +1,14 @@
 package chess
 
-import kotlin.math.abs
-
-
-class Pawn(val color: Char, var x: Char, var y: Char) {
+class Pawn(val color: Char, private var x: Char, private var y: Char) {
     private var hasFirstMove = true
 
-    fun isValid(l: Char, i: Char): Boolean {
+    fun isValid(destination: Square): Boolean {
         // Checks first move and if the pawn will remain on same col
-        val difference = abs(i.toString().toInt() - y.toString().toInt())
-        return if (x == l) {
-            if (hasFirstMove) difference <= 2 else difference == 1
+        val subtraction = destination.y.toString().toInt() - y.toString().toInt()
+        val difference = if (color == 'W') subtraction else -subtraction
+        return if (x == destination.x && destination.pawn == null) {
+            if (hasFirstMove) difference in 1..2 else difference == 1
         } else {
             false
         }
