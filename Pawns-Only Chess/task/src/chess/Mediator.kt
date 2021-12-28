@@ -13,7 +13,7 @@ class Mediator(private val player1: Player, private val player2: Player) {
         turner = if (turner == player1) player2 else player1
     }
 
-    fun isInputValid(input: String): Boolean {
+    fun hasValidInput(input: String): Boolean {
 
         return if (input.matches(Regex("^[a-h][1-8][a-h][1-8]$"))) true else {
             println("Invalid Input")

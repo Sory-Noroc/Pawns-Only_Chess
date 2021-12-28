@@ -22,7 +22,7 @@ fun main() {
         val input = readLine()!!
         
         if (input == "exit") break
-        else if (mediator.isInputValid(input)) {
+        else if (mediator.hasValidInput(input)) {
             val isGoodResponse = table.moved(mediator.turner, input)
             if (isGoodResponse) {
                 mediator.changeTurn()
