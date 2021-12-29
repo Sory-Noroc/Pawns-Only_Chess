@@ -6,13 +6,11 @@ class PawnsTable(private val size:Int) {
     private val filesList = listOf(' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
     private val files: String = filesList.joinToString("   ")
     private val rows = size downTo 1
-    val grid = mutableMapOf<Int, MutableMap<Char, Square>>()
+    private val grid = mutableMapOf<Int, MutableMap<Char, Square>>()
 
-    var table: String = ""
-        get() {
-            return assembleTable()
-        }
-        private set
+    override fun toString(): String {
+        return assembleTable()
+    }
 
     init {
         assert(size >= 5)

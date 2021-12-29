@@ -15,7 +15,7 @@ fun main() {
     val player2 = Player(readLine()!!, 'B')
 
     val mediator = Mediator(player1, player2)
-    println(table.table)
+    println(table)
 
     while (true) {
         println(mediator.currentPrompt())
@@ -26,7 +26,7 @@ fun main() {
             val isGoodResponse = table.moved(mediator.turner, input)
             if (isGoodResponse) {
                 mediator.changeTurn()
-                println(table.table)
+                println(table)
             }
         }
     }
