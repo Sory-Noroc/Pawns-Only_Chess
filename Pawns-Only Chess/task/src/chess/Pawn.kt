@@ -8,7 +8,7 @@ class Pawn(val color: Char, var x: Char, var y: Char) {
     var moves: Int = 0
     private set
 
-    val yAsInt: Int
+    private val yAsInt: Int
         get() {
             return y.toString().toInt()
         }
@@ -28,6 +28,28 @@ class Pawn(val color: Char, var x: Char, var y: Char) {
         x = l
         y = i
         moves++
+    }
+
+    fun checkCaptureDistance(other: Pawn?): Boolean {
+        return if (other != null && other.x in listOf(x + 1, x - 1)) {
+            when (color) {
+                'W' -> yAsInt + 1 == other.yAsInt
+                'B' -> yAsInt - 1 == other.yAsInt
+                else -> false
+            }
+        } else { false }
+    }
+
+    fun checkCapture(other: Pawn?): Boolean {
+        return when (color) {
+            'W' -> {
+                checkCaptureDistance(other)
+            }
+            'B' -> {
+                TODO()
+            }
+            else -> false
+        }
     }
 
     fun hasPosForEP(): Boolean {
