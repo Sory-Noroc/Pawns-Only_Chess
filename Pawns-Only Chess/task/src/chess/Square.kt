@@ -5,43 +5,45 @@ class Square(val x: Char, val y: Char) {
     override fun toString(): String = pawn?.color?.toString() ?: " "
     var pawn: Pawn? = null
 
-    val yAsInt: Int
+    val Y: Int
     get() {
-        return y.toString().toInt()
+        return y.digitToInt()
     }
 
     fun putPawn(color: Char) {
         pawn = Pawn(color, x, y)
     }
 
-    fun movePawn(player: Player, dest: Square): Boolean {
+    fun movePawn(player: Player, dest: Square): String? {
         return if (pawn == null || pawn?.color != player.pawnColor) {
             val team = if (player.pawnColor == 'W') "white" else "black"
-            println("No $team pawn at $x$y")
-            false
+            "No $team pawn at $x$y"
         } else if (pawn!!.isValid(dest)) {
             pawn?.moveTo(dest.x, dest.y)
             dest.pawn = pawn
             pawn = null
-            true
+            null
         } else {
-            println("Invalid Input")
-            false
+            "Invalid Input"
+        }
+    }
+
+    private fun canCapture(other: Square): Boolean {
+        return pawn?.checkCapture(other.pawn) ?: false
+        }
+
+    fun captureIfPossible(other: Square): String? {
+        return if (canCapture(other)) {
+            other.pawn = pawn
+            pawn = null
+            null
+        } else {
+            "Invalid Input"
         }
     }
 
     fun canDoEP(other: Square): Boolean {
         return (pawn?.hasPosForEP(other.pawn) ?: false) && other.pawn?.moves == 1
         // TODO: 28-Dec-21
-    }
-
-    fun canCapture(other: Square): Boolean = when (pawn?.color) {
-        'W' -> { pawn != null
-            && (other.pawn != null)
-                && (pawn?.yAsInt == other.pawn?.yAsInt?.plus(1))
-                    && (other.pawn?.x in listOf(pawn?.x?.plus(1), pawn?.x?.minus(1)))
-        }
-        'B' -> { TODO() }
-        else -> false
     }
 }

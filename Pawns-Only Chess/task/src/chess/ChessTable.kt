@@ -45,10 +45,35 @@ class PawnsTable(private val size:Int) {
         return tempList.joinToString(line, prefix=line, postfix=line) + files
     }
 
-    fun moved(p: Player, coordinates: String): Boolean {
-        val (x1, y1, x2, y2) = coordinates.toCharArray()
-        val startSquare = grid[y1.toString().toInt()]!![x1]!!
-        val destSquare = grid[y2.toString().toInt()]!![x2]!!
-        return startSquare.movePawn(p, destSquare)
+    private fun accessSquares(pos: String): Pair<Square, Square> {
+        val (x1, y1, x2, y2) = pos.toCharArray()
+        val startSquare = grid[y1.digitToInt()]!![x1]!!
+        val destSquare = grid[y2.digitToInt()]!![x2]!!
+        return Pair(startSquare, destSquare)
+    }
+
+    fun checkEP(pos: String): Boolean {
+        val (startSq, destSq) = accessSquares(pos)
+        return startSq.canDoEP(destSq)
+    }
+
+    private fun doEPIfPossible(start: Square, dest: Square, player: Player): String? {
+        return if (player.canDoEP) {
+            val victim: Square = grid[start.x.digitToInt()]!![dest.y]!!
+            dest.pawn = start.pawn
+            victim.pawn = null
+            start.pawn = null
+            player.canDoEP = false
+            null
+        } else { "Invalid Input" }
+    }
+
+    fun moved(p: Player, coordinates: String): String? {
+        val (startSq, destSq) = accessSquares(coordinates)
+        val movedResponse: String? = startSq.movePawn(p, destSq)
+        val captureResponse: String? = startSq.captureIfPossible(destSq)
+        val doEPResponse: String? = doEPIfPossible(startSq, destSq, p)
+        val responses = listOf(movedResponse, captureResponse, doEPResponse)
+        return if (responses.any { it == null}) null else movedResponse
     }
 }

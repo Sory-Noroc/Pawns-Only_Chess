@@ -8,14 +8,16 @@ class Pawn(val color: Char, var x: Char, var y: Char) {
     var moves: Int = 0
     private set
 
-    private val yAsInt: Int
+    private val Y: Int
         get() {
             return y.toString().toInt()
         }
 
+    var canDoEP: Boolean = false
+
     fun isValid(destination: Square): Boolean {
         // Checks first move and if the pawn will remain on same col
-        val subtraction = destination.yAsInt - yAsInt
+        val subtraction = destination.Y - Y
         val difference = if (color == 'W') subtraction else -subtraction
         return if (x == destination.x && destination.pawn == null) {
             if (hasFirstMove) difference in 1..2 else difference == 1
@@ -30,11 +32,11 @@ class Pawn(val color: Char, var x: Char, var y: Char) {
         moves++
     }
 
-    fun checkCaptureDistance(other: Pawn?): Boolean {
+    private fun checkCaptureDistance(other: Pawn?): Boolean {
         return if (other != null && other.x in listOf(x + 1, x - 1)) {
             when (color) {
-                'W' -> yAsInt + 1 == other.yAsInt
-                'B' -> yAsInt - 1 == other.yAsInt
+                'W' -> Y + 1 == other.Y
+                'B' -> Y - 1 == other.Y
                 else -> false
             }
         } else { false }
@@ -42,11 +44,12 @@ class Pawn(val color: Char, var x: Char, var y: Char) {
 
     fun checkCapture(other: Pawn?): Boolean {
         return when (color) {
+            // Check the other sq has a pawn, and also of the opp color
             'W' -> {
-                checkCaptureDistance(other)
+                checkCaptureDistance(other) && other?.color == 'B'
             }
             'B' -> {
-                TODO()
+                checkCaptureDistance(other) && other?.color == 'W'
             }
             else -> false
         }
