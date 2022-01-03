@@ -30,8 +30,8 @@ class Square(val x: Char, val y: Char) {
         }
     }
 
-    fun canDoEnPassant(other: Square): Boolean {
-        return (pawn?.hasPosForEP() ?: false) && other.pawn?.moves == 1
+    fun canDoEP(other: Square): Boolean {
+        return (pawn?.hasPosForEP(other.pawn) ?: false) && other.pawn?.moves == 1
         // TODO: 28-Dec-21
     }
 

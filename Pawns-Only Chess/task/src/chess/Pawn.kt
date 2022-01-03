@@ -52,8 +52,7 @@ class Pawn(val color: Char, var x: Char, var y: Char) {
         }
     }
 
-    fun hasPosForEP(): Boolean {
-        return color == 'W' && y == '5' || color == 'B' && y == '4'
-        // TODO: 28-Dec-21  
+    fun hasPosForEP(other: Pawn?): Boolean {
+        return (color == 'W' && y == '5' || color == 'B' && y == '4') && other?.x == x
     }
 }

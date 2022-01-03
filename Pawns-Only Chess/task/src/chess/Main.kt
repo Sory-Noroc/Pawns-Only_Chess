@@ -2,7 +2,7 @@ package chess
 
 const val TITLE = "Pawns-Only Chess"
 
-data class Player(val name: String, val pawnColor: Char)
+data class Player(val name: String, val pawnColor: Char, var canDoEP: Boolean = false)
 
 fun main() {
 
@@ -23,10 +23,13 @@ fun main() {
         
         if (input == "exit") break
         else if (mediator.hasValidInput(input)) {
-            val isGoodResponse = table.moved(mediator.turner, input)
-            if (isGoodResponse) {
+            val response = table.moved(mediator.turner, input)
+            mediator.turner.canDoEP = table.checkEP(input)
+            if (response == null) {
                 mediator.changeTurn()
                 println(table)
+            } else {
+                println(response)
             }
         }
     }
