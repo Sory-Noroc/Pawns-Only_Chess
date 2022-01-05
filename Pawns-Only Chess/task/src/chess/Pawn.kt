@@ -13,8 +13,6 @@ class Pawn(val color: Char, var x: Char, var y: Char) {
             return y.toString().toInt()
         }
 
-    var canDoEP: Boolean = false
-
     fun isValid(destination: Square): Boolean {
         // Checks first move and if the pawn will remain on same col
         val subtraction = destination.Y - Y
@@ -56,6 +54,11 @@ class Pawn(val color: Char, var x: Char, var y: Char) {
     }
 
     fun hasPosForEP(other: Pawn?): Boolean {
-        return (color == 'W' && y == '5' || color == 'B' && y == '4') && other?.x == x
+        return ((color == 'W' && y == '5') || (color == 'B' && y == '4')) && other?.y == y
+    }
+
+    fun hasPosForEP(row: MutableMap<Char, Square>): Boolean {
+        return row[x - 1]?.pawn?.color == (if (color == 'W') 'B' else 'W')
+                || row[x + 1]?.pawn?.color == (if (color == 'W') 'B' else 'W')
     }
 }

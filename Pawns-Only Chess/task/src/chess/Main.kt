@@ -2,7 +2,8 @@ package chess
 
 const val TITLE = "Pawns-Only Chess"
 
-data class Player(val name: String, val pawnColor: Char, var canDoEP: Boolean = false)
+data class Player(val name: String, val pawnColor: Char, var canDoEP: Boolean = false,
+val history: MutableList<Boolean> = mutableListOf(true))
 
 fun main() {
 
@@ -24,7 +25,6 @@ fun main() {
         if (input == "exit") break
         else if (mediator.hasValidInput(input)) {
             val response = table.moved(mediator.turner, input)
-            mediator.turner.canDoEP = table.checkEP(input)
             if (response == null) {
                 mediator.changeTurn()
                 println(table)
