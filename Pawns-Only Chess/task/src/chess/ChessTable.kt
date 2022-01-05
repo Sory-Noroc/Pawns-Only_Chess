@@ -99,7 +99,7 @@ class PawnsTable(private val size:Int) {
          * If the current player is able to do an En Passant, the pawn moves, then the capability of
          * the player to do another EP is lost, else we output that there is an invalid input
          */
-        val victim: Square? = if (dest.y - start.y == 1 && abs(dest.x - dest.x) == 1)
+        val victim: Square? = if (dest.y - start.y == 1 && abs(dest.x - start.x) == 1)
             grid[start.y.digitToInt()]!![dest.x]!! else null
         // Makes the p Player able to make an En Passant in the next turn if the conditions are met
         player.canDoEP = start.canDoEP(victim) && player.history.last() == true
