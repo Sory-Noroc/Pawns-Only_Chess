@@ -102,14 +102,14 @@ class PawnsTable(private val size:Int) {
         val victim: Square? = if (dest.y - start.y == 1 && abs(dest.x - start.x) == 1)
             grid[start.y.digitToInt()]!![dest.x]!! else null
         // Makes the p Player able to make an En Passant in the next turn if the conditions are met
-        player.canDoEP = start.canDoEP(victim) && player.history.last() == true
+        player.canDoEP = start.canDoEP(victim) && player.notMissedEP == true
         return if (player.canDoEP) {
             start.pawn?.moveTo(dest.x, dest.y)
             dest.pawn = start.pawn
             victim?.pawn = null
             start.pawn = null
             player.canDoEP = false
-            player.history.add(false)
+            player.notMissedEP = false
             null
         } else { "Invalid Input" }
     }

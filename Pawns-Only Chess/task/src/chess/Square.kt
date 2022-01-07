@@ -24,7 +24,7 @@ class Square(val x: Char, val y: Char) {
             pawn = null
             if (player.canDoEP) {
                 // Adding to the history of the player that he did not do an EP recently
-                player.history.add(false)
+                player.notMissedEP = false
             }
             null
         } else {
@@ -42,7 +42,7 @@ class Square(val x: Char, val y: Char) {
             pawn?.moveTo(other.x, other.y)
             pawn = null
             if (player.canDoEP) {
-                player.history.add(false)
+                player.notMissedEP = false
             }
             null
         } else {

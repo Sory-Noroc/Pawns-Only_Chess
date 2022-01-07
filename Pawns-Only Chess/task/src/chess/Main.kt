@@ -3,7 +3,7 @@ package chess
 const val TITLE = "Pawns-Only Chess"
 
 data class Player(val name: String, val pawnColor: Char, var canDoEP: Boolean = false,
-val history: MutableList<Boolean> = mutableListOf(true))
+var notMissedEP: Boolean = true)
 
 fun main() {
 
