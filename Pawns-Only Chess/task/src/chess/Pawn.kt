@@ -1,6 +1,6 @@
 package chess
 
-class Pawn(val color: Char, var x: Char, var y: Char) {
+class Pawn(val color: Char, var x: Int, var y: Int) {
     private val hasFirstMove: Boolean
         get() {
         return moves == 0
@@ -8,14 +8,10 @@ class Pawn(val color: Char, var x: Char, var y: Char) {
     var moves: Int = 0
     private set
 
-    private val Y: Int
-        get() {
-            return y.toString().toInt()
-        }
 
     fun isValid(destination: Square): Boolean {
         // Checks first move and if the pawn will remain on same col
-        val subtraction = destination.Y - Y
+        val subtraction = destination.y - y
         val difference = if (color == 'W') subtraction else -subtraction
         return if (x == destination.x && destination.pawn == null) {
             if (hasFirstMove) difference in 1..2 else difference == 1
@@ -24,7 +20,7 @@ class Pawn(val color: Char, var x: Char, var y: Char) {
         }
     }
 
-    fun moveTo(l: Char, i: Char) {
+    fun moveTo(l: Int, i: Int) {
         x = l
         y = i
         moves++
@@ -33,8 +29,8 @@ class Pawn(val color: Char, var x: Char, var y: Char) {
     private fun checkCaptureDistance(other: Pawn?): Boolean {
         return if (other != null && other.x in listOf(x + 1, x - 1)) {
             when (color) {
-                'W' -> Y + 1 == other.Y
-                'B' -> Y - 1 == other.Y
+                'W' -> y + 1 == other.y
+                'B' -> y - 1 == other.y
                 else -> false
             }
         } else { false }
@@ -54,11 +50,11 @@ class Pawn(val color: Char, var x: Char, var y: Char) {
     }
 
     fun hasPosForEP(other: Pawn?): Boolean {
-        return ((color == 'W' && y == '5') || (color == 'B' && y == '4')) && other?.y == y
+        return ((color == 'W' && y == 5) || (color == 'B' && y == 4)) && other?.y == y
     }
 
-    fun hasPosForEP(row: MutableMap<Char, Square>): Boolean {
-        return row[x - 1]?.pawn?.color == (if (color == 'W') 'B' else 'W')
-                || row[x + 1]?.pawn?.color == (if (color == 'W') 'B' else 'W')
+    fun hasPosForEP(row: MutableList<Square>): Boolean {
+        return row[x - 1].pawn?.color == (if (color == 'W') 'B' else 'W')
+                || row[x + 1].pawn?.color == (if (color == 'W') 'B' else 'W')
     }
 }

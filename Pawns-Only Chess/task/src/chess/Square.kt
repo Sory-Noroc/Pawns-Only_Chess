@@ -1,15 +1,9 @@
 package chess
 
-class Square(val x: Char, val y: Char) {
+class Square(val x: Int, val y: Int) {
     // representation: B - black pawn, W - white pawn, " " - no pawn
     override fun toString(): String = pawn?.color?.toString() ?: " "
     var pawn: Pawn? = null
-
-    val Y: Int
-    get() {
-        return y.digitToInt()
-    }
-
     fun putPawn(color: Char) {
         pawn = Pawn(color, x, y)
     }
