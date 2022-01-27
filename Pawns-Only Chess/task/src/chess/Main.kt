@@ -26,8 +26,8 @@ fun main() {
             break
         }
         else if (mediator.hasValidInput(input)) {
-            val response = table.moved(mediator.turner, input)
-            if (response == null) {
+            val response = table.checkAndMove(mediator.turner, input)
+            if (response == "Well") {
                 mediator.changeTurn()
                 println(table)
             } else {

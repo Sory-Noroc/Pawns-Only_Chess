@@ -9,7 +9,7 @@ class Pawn(val color: Char, var x: Int, var y: Int) {
     private set
 
 
-    fun isValid(destination: Square): Boolean {
+    fun isValidMove(destination: Square): Boolean {
         // Checks first move and if the pawn will remain on same col
         val subtraction = destination.y - y
         val difference = if (color == 'W') subtraction else -subtraction
