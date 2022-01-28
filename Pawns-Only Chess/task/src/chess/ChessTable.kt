@@ -108,62 +108,122 @@ class PawnsTable(private val size:Int) {
         return start.canDoEP(victim) && player.notMissedEP
     }
 
-    private fun tryEP(start: Square, dest: Square, player: Player): String? {
+    private fun doEP(start: Square, dest: Square, player: Player) {
         /**
          * If the current player is able to do an En Passant, the pawn moves, then the capability of
          * the player to do another EP is lost, else we output that there is an invalid input
          */
-        player.canDoEP = checkEP(start, dest, player)
-        return if (player.canDoEP) {
-            val victim: Square? = if (dest.y - start.y == 1 && abs(dest.x - start.x) == 1)
-                grid[start.y]!![dest.x] else null
-            start.pawn?.moveTo(dest.x, dest.y)
-            dest.pawn = start.pawn
-            victim?.pawn = null
-            start.pawn = null
-            player.canDoEP = false
-            player.notMissedEP = false
-            null
-        } else { "Invalid Input" }
+//        player.canDoEP = checkEP(start, dest, player)
+//        return if (player.canDoEP) {
+        val victim: Square = grid[start.y]!![dest.x]
+//        start.pawn?.moveTo(dest.x, dest.y)
+//        dest.pawn = start.pawn
+//        victim?.pawn = null
+//        start.pawn = null
+//        player.canDoEP = false
+//        player.notMissedEP = false
+        start.doEP(dest, victim, player)
+//            null
+//        } else { "Invalid Input" }
     }
 
-    fun moved(p: Player, coordinates: String): String? {
+    fun checkAndMove(p: Player, coordinates: String): String {
         /**
          * Moves/Captures pawns if possible, else it returns the response of the error (if no errors: null)
          */
         val (startSq, destSq) = accessSquares(coordinates)
-        var error = "Invalid Input"
+//        var error = "Invalid Input"
         p.canDoEP = checkForEP(p)
 
-        if (startSq.x == destSq.x) {
-            val movedResponse: String? = startSq.movePawn(p, destSq)
-            if (movedResponse == null) return null else error = movedResponse
-        } else {
-            val captureResponse: String? = startSq.tryCapture(p, destSq)
-            if (captureResponse == null) return null
-            val doEPResponse: String? = tryEP(startSq, destSq, p)
-            if (doEPResponse == null) return null
+        if (!startSq.isCorrectPawn(p)) return startSq.noPawn(p)
+
+        when {
+            // Only one brach gets executed, or we have an invalid input
+            startSq.canMove(destSq) -> startSq.movePawn(p, destSq)
+            startSq.canCapture(destSq) -> startSq.capturePawn(p, destSq)
+            checkEP(startSq, destSq, p) -> doEP(startSq, destSq, p)
+            else -> return "Invalid Input"
         }
-        return error
+        // If we arrived here, it means we skipped the else so the pawn had moved
+        return "Well"
+
+//        if (startSq.x == destSq.x) {
+//            val movedResponse: String? = startSq.movePawn(p, destSq)
+//            if (movedResponse == null) return null else error = movedResponse
+//        } else {
+//            val captureResponse: String? = startSq.tryCapture(p, destSq)
+//            if (captureResponse == null) return null
+//            val doEPResponse: String? = tryEP(startSq, destSq, p)
+//            if (doEPResponse == null) return null
+//        }
+//        return error
+    }
+
+    private fun onLastRank(): Char? {
+        // Check if reached opposite side
+        val check = mapOf(1 to 'B', 8 to 'W')
+
+        check.forEach { (rank, color) ->
+            grid[rank]?.onEach {
+                // Check if there is any pawn on last rank, and return winner
+                if (it.pawn != null) {
+                    return color
+                }
+            }
+        }
+        return null
+    }
+
+    private fun checkStalemate(p: Player): Boolean {
+        /**
+         * Checks if the current player can't move any pawn, which means it's a stalemate
+         * For each of his pawns we check if it can move, capture or do En Passant(EP)
+         * Return: If true => Stalemate!
+         */
+        grid.forEach { (y, squares) ->
+            squares.filter { i -> i.pawn?.color == p.pawnColor }.forEach {
+                // Takes only squares with pawns of our player
+
+            }
+        }
+        return true
+
+    }
+
+    private fun canMoveAnywhere(sq: Square): Boolean {
+
+    }
+
+    private fun noPawns(): Char? {
+        var b: Int = 0
+        var w: Int = 0
+        grid.values.forEach { list ->
+            list.forEach { sq ->
+                when (sq.pawn?.color) {
+                    'W' -> w++
+                    'B' -> b++
+                }
+            }
+        }
+        // If anyone has 0 pawns, it means the opposite player won
+        return if (b == 0) 'W' else if (w == 0) 'B' else null
     }
 
     fun hasWinner(m: Mediator): Boolean {
-        // Check if reached opposite side
-        grid[1]?.onEach {
-            if (it.pawn != null) {
-                printWinner('B')
-                return true
-            }
-        }
-        grid[8]?.onEach {
-            if (it.pawn != null) return true
-        }
-        return false
+        var winner: Char? = null
+//        winner = onLastRank()
+//        checkSquares(m.turner)
+        printWinnerMsg(winner)
     }
 
-    fun printWinner(w: Char) {
+    private fun printWinnerMsg(output: Char) {
         println(
-            if (w == 'B') "Black Wins!" else "White Wins!"
+            when(output) {
+                'B' -> "Black Wins!"
+                'W' -> "White Wins!"
+                'S' -> "Stalemate!"
+                else -> throw IllegalArgumentException("No such output! B/W/S needed")
+            }
         )
     }
 }
