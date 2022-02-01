@@ -1,5 +1,7 @@
 package chess
 
+import javax.management.InvalidAttributeValueException
+
 class Square(val x: Int, val y: Int) {
     // representation: B - black pawn, W - white pawn, " " - no pawn
     override fun toString(): String = pawn?.color?.toString() ?: " "
@@ -38,6 +40,14 @@ class Square(val x: Int, val y: Int) {
 //        } else {
 //            "Invalid Input"
 //        }
+    }
+
+    fun getCapturingRank(p: Player): Int {
+        return when (p.pawnColor) {
+            'B' -> y-1
+            'W' -> y+1
+            else -> throw InvalidAttributeValueException("No such value for color!")
+        }
     }
 
     fun canCapture(other: Square): Boolean {

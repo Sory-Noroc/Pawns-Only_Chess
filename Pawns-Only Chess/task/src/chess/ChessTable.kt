@@ -182,7 +182,7 @@ class PawnsTable(private val size:Int) {
          */
         grid.forEach { (y, squares) ->
             squares.filter { i -> i.pawn?.color == p.pawnColor }.forEach {
-                // Takes only squares with pawns of our player
+                // it -> squares with pawns of our player
 
             }
         }
@@ -190,8 +190,22 @@ class PawnsTable(private val size:Int) {
 
     }
 
-    private fun canMoveAnywhere(sq: Square): Boolean {
+    private fun canMoveAnywhere(sq: Square, p: Player): Boolean {
+        return when (p.pawnColor) {
+            'B' -> sq.canMove(grid[sq.y - 2]!![sq.x]) || sq.canMove(grid[sq.y - 1]!![sq.x])
+            'W' -> sq.canMove(grid[sq.y + 2]!![sq.x]) || sq.canMove(grid[sq.y + 1]!![sq.x])
+            else -> false
+        }
+    }
 
+    private fun canCaptureAny(sq: Square, p: Player): Boolean {
+        val rank = sq.getCapturingRank(p)
+        return sq.canCapture(grid[rank]!![sq.x-1]) || sq.canCapture(grid[rank]!![sq.x+1])
+    }
+
+    private fun canDoEPAnywhere(sq: Square, p: Player): Boolean {
+        val rank = sq.getCapturingRank(p)
+        return checkEP(sq, grid[rank]!![sq.x-1], p) || checkEP(sq, grid[rank]!![sq.x+1], p)
     }
 
     private fun noPawns(): Char? {
@@ -207,6 +221,21 @@ class PawnsTable(private val size:Int) {
         }
         // If anyone has 0 pawns, it means the opposite player won
         return if (b == 0) 'W' else if (w == 0) 'B' else null
+    }
+
+    private fun onLastRank(): Char? {
+        // Check if reached opposite side
+        val check = mapOf(1 to 'B', 8 to 'W')
+
+        check.forEach { (rank, color) ->
+            grid[rank]?.onEach {
+                // Check if there is any pawn on last rank, and return winner
+                if (it.pawn != null) {
+                    return color
+                }
+            }
+        }
+        return null
     }
 
     fun hasWinner(m: Mediator): Boolean {
