@@ -1,6 +1,7 @@
 package chess
 
 import java.lang.IllegalArgumentException
+import javax.management.InvalidAttributeValueException
 import kotlin.math.abs
 
 class PawnsTable(private val size:Int) {
@@ -138,7 +139,7 @@ class PawnsTable(private val size:Int) {
         if (!startSq.isCorrectPawn(p)) return startSq.noPawn(p)
 
         when {
-            // Only one brach gets executed, or we have an invalid input
+            // Only one branch gets executed, or we have an invalid input
             startSq.canMove(destSq) -> startSq.movePawn(p, destSq)
             startSq.canCapture(destSq) -> startSq.capturePawn(p, destSq)
             checkEP(startSq, destSq, p) -> doEP(startSq, destSq, p)
@@ -178,7 +179,7 @@ class PawnsTable(private val size:Int) {
         /**
          * Checks if the current player can't move any pawn, which means it's a stalemate
          * For each of his pawns we check if it can move, capture or do En Passant(EP)
-         * Return: If true => Stalemate!
+         * Return: 'S' if there is stalemate else null
          */
         grid.forEach { (y, squares) ->
             squares.filter { i -> i.pawn?.color == p.pawnColor }.forEach {
@@ -191,6 +192,10 @@ class PawnsTable(private val size:Int) {
     }
 
     private fun canMoveAnywhere(sq: Square, p: Player): Boolean {
+        /**
+         * Checks if the square(pawn from it) of the current player can move
+         * Returns true if
+         */
         return when (p.pawnColor) {
             'B' -> sq.canMove(grid[sq.y - 2]!![sq.x]) || sq.canMove(grid[sq.y - 1]!![sq.x])
             'W' -> sq.canMove(grid[sq.y + 2]!![sq.x]) || sq.canMove(grid[sq.y + 1]!![sq.x])
@@ -208,9 +213,11 @@ class PawnsTable(private val size:Int) {
         return checkEP(sq, grid[rank]!![sq.x-1], p) || checkEP(sq, grid[rank]!![sq.x+1], p)
     }
 
-    private fun noPawns(): Char? {
-        var b: Int = 0
-        var w: Int = 0
+    private fun noPawns(m: Mediator): Char? {
+        /**
+         * Checks if out client has 0 pawns, then returns color of opposite player
+         */
+        var c = 0
         grid.values.forEach { list ->
             list.forEach { sq ->
                 when (sq.pawn?.color) {
@@ -224,7 +231,10 @@ class PawnsTable(private val size:Int) {
     }
 
     private fun onLastRank(): Char? {
-        // Check if reached opposite side
+        /**
+         * Check if reached opposite side
+         * Return the color of the player that has reached the end
+         */
         val check = mapOf(1 to 'B', 8 to 'W')
 
         check.forEach { (rank, color) ->
@@ -238,11 +248,21 @@ class PawnsTable(private val size:Int) {
         return null
     }
 
-    fun hasWinner(m: Mediator): Boolean {
-        var winner: Char? = null
-//        winner = onLastRank()
-//        checkSquares(m.turner)
-        printWinnerMsg(winner)
+    fun isGameOver(m: Mediator): Boolean {
+        /**
+         * After each turn, check if there is any pawn on end, current player
+         * has 0 pawns or can't move
+         */
+        val results: List<Char?> = listOf(
+            onLastRank(),
+            noPawns(m),
+            checkStalemate(m.turner)
+        )
+        if (results.any { it is Char }) {
+            // Gets the winner from results and prints him
+            printResultMsg(results.filterIsInstance<Char>()[0])
+        }
+        return results.any { it is Char }
     }
 
     private fun printWinnerMsg(output: Char) {
