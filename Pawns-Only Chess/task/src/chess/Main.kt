@@ -22,7 +22,7 @@ fun main() {
         println(mediator.currentPrompt())
         val input = readLine()!!
         
-        if (input == "exit" || table.hasWinner(mediator)) {
+        if (input == "exit" || table.isGameOver(mediator)) {
             break
         }
         else if (mediator.hasValidInput(input)) {

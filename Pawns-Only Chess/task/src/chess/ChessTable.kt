@@ -160,22 +160,7 @@ class PawnsTable(private val size:Int) {
 //        return error
     }
 
-    private fun onLastRank(): Char? {
-        // Check if reached opposite side
-        val check = mapOf(1 to 'B', 8 to 'W')
-
-        check.forEach { (rank, color) ->
-            grid[rank]?.onEach {
-                // Check if there is any pawn on last rank, and return winner
-                if (it.pawn != null) {
-                    return color
-                }
-            }
-        }
-        return null
-    }
-
-    private fun checkStalemate(p: Player): Boolean {
+    private fun checkStalemate(p: Player): Char? {
         /**
          * Checks if the current player can't move any pawn, which means it's a stalemate
          * For each of his pawns we check if it can move, capture or do En Passant(EP)
@@ -184,11 +169,12 @@ class PawnsTable(private val size:Int) {
         grid.forEach { (y, squares) ->
             squares.filter { i -> i.pawn?.color == p.pawnColor }.forEach {
                 // it -> squares with pawns of our player
-
+                if (canMoveAnywhere(it, p) || canCaptureAny(it, p) || canDoEPAnywhere(it, p)) {
+                    return null
+                }
             }
         }
-        return true
-
+        return 'S'
     }
 
     private fun canMoveAnywhere(sq: Square, p: Player): Boolean {
@@ -220,14 +206,11 @@ class PawnsTable(private val size:Int) {
         var c = 0
         grid.values.forEach { list ->
             list.forEach { sq ->
-                when (sq.pawn?.color) {
-                    'W' -> w++
-                    'B' -> b++
-                }
+                if (sq.pawn?.color == m.turner.pawnColor) c++
             }
         }
         // If anyone has 0 pawns, it means the opposite player won
-        return if (b == 0) 'W' else if (w == 0) 'B' else null
+        return if (c == 0) m.getOtherPlayer().pawnColor else null
     }
 
     private fun onLastRank(): Char? {
@@ -265,7 +248,7 @@ class PawnsTable(private val size:Int) {
         return results.any { it is Char }
     }
 
-    private fun printWinnerMsg(output: Char) {
+    private fun printResultMsg(output: Char) {
         println(
             when(output) {
                 'B' -> "Black Wins!"

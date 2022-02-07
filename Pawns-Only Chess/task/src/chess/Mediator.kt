@@ -24,4 +24,8 @@ class Mediator(private val player1: Player, private val player2: Player) {
             false
         }
     }
+
+    fun getOtherPlayer(): Player {
+        return if (turner.pawnColor == 'W') getByColor('B') else turner
+    }
 }
