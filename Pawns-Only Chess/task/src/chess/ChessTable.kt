@@ -183,20 +183,28 @@ class PawnsTable(private val size:Int) {
          * Returns true if
          */
         return when (p.pawnColor) {
-            'B' -> sq.canMove(grid[sq.y - 2]!![sq.x]) || sq.canMove(grid[sq.y - 1]!![sq.x])
-            'W' -> sq.canMove(grid[sq.y + 2]!![sq.x]) || sq.canMove(grid[sq.y + 1]!![sq.x])
+            'B' -> sq.canMove(grid[sq.y - 2]?.get(sq.x)) || sq.canMove(grid[sq.y - 1]?.get(sq.x))
+            'W' -> sq.canMove(grid[sq.y + 2]?.get(sq.x)) || sq.canMove(grid[sq.y + 1]?.get(sq.x))
             else -> false
         }
     }
 
     private fun canCaptureAny(sq: Square, p: Player): Boolean {
         val rank = sq.getCapturingRank(p)
-        return sq.canCapture(grid[rank]!![sq.x-1]) || sq.canCapture(grid[rank]!![sq.x+1])
+        val left = sq.x - 1
+        val right = sq.x + 1
+        val canCaptureLeft = if (left in 0..7) sq.canCapture(grid[rank]!![left]) else false
+        val canCaptureRight = if (right in 0..7) sq.canCapture(grid[rank]!![right]) else false
+        return canCaptureLeft || canCaptureRight
     }
 
     private fun canDoEPAnywhere(sq: Square, p: Player): Boolean {
         val rank = sq.getCapturingRank(p)
-        return checkEP(sq, grid[rank]!![sq.x-1], p) || checkEP(sq, grid[rank]!![sq.x+1], p)
+        val left = sq.x - 1
+        val right = sq.x + 1
+        val checkLeft = if (left in 0..7) checkEP(sq, grid[rank]!![left], p) else false
+        val checkRight = if (right in 0..7) checkEP(sq, grid[rank]!![right], p) else false
+        return checkLeft || checkRight
     }
 
     private fun noPawns(m: Mediator): Char? {

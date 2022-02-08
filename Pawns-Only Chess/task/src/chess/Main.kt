@@ -22,7 +22,7 @@ fun main() {
         println(mediator.currentPrompt())
         val input = readLine()!!
         
-        if (input == "exit" || table.isGameOver(mediator)) {
+        if (input == "exit") {
             break
         }
         else if (mediator.hasValidInput(input)) {
@@ -30,6 +30,9 @@ fun main() {
             if (response == "Well") {
                 mediator.changeTurn()
                 println(table)
+                if (table.isGameOver(mediator)) {
+                    break
+                }
             } else {
                 println(response)
             }

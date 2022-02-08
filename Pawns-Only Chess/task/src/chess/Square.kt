@@ -24,8 +24,8 @@ class Square(val x: Int, val y: Int) {
         return "No $team pawn at $x$y"
     }
 
-    fun canMove(dest: Square): Boolean {
-        return x == dest.x && pawn!!.isValidMove(dest)
+    fun canMove(dest: Square?): Boolean {
+        return x == dest?.x && pawn!!.isValidMove(dest)
     }
 
     fun movePawn(player: Player, dest: Square) {
