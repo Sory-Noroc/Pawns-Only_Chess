@@ -207,18 +207,20 @@ class PawnsTable(private val size:Int) {
         return checkLeft || checkRight
     }
 
-    private fun noPawns(m: Mediator): Char? {
+    private fun noPawns(): Char? {
         /**
-         * Checks if out client has 0 pawns, then returns color of opposite player
+         * Checks if our client has 0 pawns, then returns color of opposite player
          */
-        var c = 0
+        var b = 0
+        var w = 0
         grid.values.forEach { list ->
             list.forEach { sq ->
-                if (sq.pawn?.color == m.turner.pawnColor) c++
+                if (sq.pawn?.color == 'W') w++
+                else if (sq.pawn?.color == 'B') b++
             }
         }
-        // If anyone has 0 pawns, it means the opposite player won
-        return if (c == 0) m.getOtherPlayer().pawnColor else null
+        // If any player has 0 pawns, it means the opposite player won
+        return if (b == 0) 'W' else if (w == 0) 'B' else null
     }
 
     private fun onLastRank(): Char? {
@@ -246,7 +248,7 @@ class PawnsTable(private val size:Int) {
          */
         val results: List<Char?> = listOf(
             onLastRank(),
-            noPawns(m),
+            noPawns(),
             checkStalemate(m.turner)
         )
         if (results.any { it is Char }) {

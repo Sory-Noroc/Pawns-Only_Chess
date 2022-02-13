@@ -13,7 +13,7 @@ class Mediator(private val player1: Player, private val player2: Player) {
         turner = if (turner == player1) player2 else player1
     }
 
-    fun getByColor(color: Char): Player {
+    private fun getByColor(color: Char): Player {
         return if (player1.pawnColor == color) player1 else player2
     }
 

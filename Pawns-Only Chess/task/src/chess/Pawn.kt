@@ -54,7 +54,7 @@ class Pawn(val color: Char, var x: Int, var y: Int) {
     }
 
     fun hasPosForEP(row: MutableList<Square>): Boolean {
-        return row[x - 1].pawn?.color == (if (color == 'W') 'B' else 'W')
-                || row[x + 1].pawn?.color == (if (color == 'W') 'B' else 'W')
+        return (x - 1 >= 0) && row[x - 1].pawn?.color == (if (color == 'W') 'B' else 'W')
+                || (x + 1 <= 7) && row[x + 1].pawn?.color == (if (color == 'W') 'B' else 'W')
     }
 }
