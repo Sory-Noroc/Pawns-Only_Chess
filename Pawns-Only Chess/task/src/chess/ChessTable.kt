@@ -1,7 +1,6 @@
 package chess
 
 import java.lang.IllegalArgumentException
-import javax.management.InvalidAttributeValueException
 import kotlin.math.abs
 
 class PawnsTable(private val size:Int) {
@@ -14,12 +13,14 @@ class PawnsTable(private val size:Int) {
 
     override fun toString(): String {
         /**
-         * Gets used when we print the table. Converts the grid map to an actual string representation of a chess table
+         * Gets used when we print the table. Converts the grid map to
+         * an actual string representation of a chess table
          */
         return assembleTable()
     }
 
     init {
+        // Minimal size of the table should be 5
         assert(size >= 5)
         makeEmptyGrid()
         populateGrid()
@@ -70,6 +71,9 @@ class PawnsTable(private val size:Int) {
     }
 
     private fun assembleTable(): String {
+        /**
+         * Creates the string representation of the table
+         */
         val tempList = mutableListOf<String>()
         grid.forEach { (k, v) ->
             tempList.add(buildRow(k, v.map { it.toString() }) + '\n')
@@ -105,7 +109,7 @@ class PawnsTable(private val size:Int) {
     private fun checkEP(start: Square, dest: Square, player: Player): Boolean {
         val victim: Square? = if (dest.y - start.y == 1 && abs(dest.x - start.x) == 1)
             grid[start.y]!![dest.x] else null
-        // Makes the p Player able to make an En Passant in the next turn if the conditions are met
+        // Makes the player able to make an En Passant in the next turn if the conditions are met
         return start.canDoEP(victim) && player.notMissedEP
     }
 
@@ -114,18 +118,8 @@ class PawnsTable(private val size:Int) {
          * If the current player is able to do an En Passant, the pawn moves, then the capability of
          * the player to do another EP is lost, else we output that there is an invalid input
          */
-//        player.canDoEP = checkEP(start, dest, player)
-//        return if (player.canDoEP) {
         val victim: Square = grid[start.y]!![dest.x]
-//        start.pawn?.moveTo(dest.x, dest.y)
-//        dest.pawn = start.pawn
-//        victim?.pawn = null
-//        start.pawn = null
-//        player.canDoEP = false
-//        player.notMissedEP = false
         start.doEP(dest, victim, player)
-//            null
-//        } else { "Invalid Input" }
     }
 
     fun checkAndMove(p: Player, coordinates: String): String {
@@ -133,7 +127,6 @@ class PawnsTable(private val size:Int) {
          * Moves/Captures pawns if possible, else it returns the response of the error (if no errors: null)
          */
         val (startSq, destSq) = accessSquares(coordinates)
-//        var error = "Invalid Input"
         p.canDoEP = checkForEP(p)
 
         if (!startSq.isCorrectPawn(p)) return startSq.noPawn(p)
@@ -147,17 +140,6 @@ class PawnsTable(private val size:Int) {
         }
         // If we arrived here, it means we skipped the else so the pawn had moved
         return "Well"
-
-//        if (startSq.x == destSq.x) {
-//            val movedResponse: String? = startSq.movePawn(p, destSq)
-//            if (movedResponse == null) return null else error = movedResponse
-//        } else {
-//            val captureResponse: String? = startSq.tryCapture(p, destSq)
-//            if (captureResponse == null) return null
-//            val doEPResponse: String? = tryEP(startSq, destSq, p)
-//            if (doEPResponse == null) return null
-//        }
-//        return error
     }
 
     private fun checkStalemate(p: Player): Char? {
@@ -166,7 +148,7 @@ class PawnsTable(private val size:Int) {
          * For each of his pawns we check if it can move, capture or do En Passant(EP)
          * Return: 'S' if there is stalemate else null
          */
-        grid.forEach { (y, squares) ->
+        grid.forEach { (_, squares) ->
             squares.filter { i -> i.pawn?.color == p.pawnColor }.forEach {
                 // it -> squares with pawns of our player
                 if (canMoveAnywhere(it, p) || canCaptureAny(it, p) || canDoEPAnywhere(it, p)) {
@@ -190,6 +172,9 @@ class PawnsTable(private val size:Int) {
     }
 
     private fun canCaptureAny(sq: Square, p: Player): Boolean {
+        /**
+         * Checks if sq can capture on left or right, diagonally, either side
+         */
         val rank = sq.getCapturingRank(p)
         val left = sq.x - 1
         val right = sq.x + 1
@@ -199,6 +184,9 @@ class PawnsTable(private val size:Int) {
     }
 
     private fun canDoEPAnywhere(sq: Square, p: Player): Boolean {
+        /**
+         * Like checking capturing, but with En Passant
+         */
         val rank = sq.getCapturingRank(p)
         val left = sq.x - 1
         val right = sq.x + 1
@@ -227,7 +215,9 @@ class PawnsTable(private val size:Int) {
         /**
          * Check if reached opposite side
          * Return the color of the player that has reached the end
-         */
+         * val check - Map of winner according to the rank reached, only B can get to
+         * rank 1, and only W can get to 8, which means a win
+        */
         val check = mapOf(1 to 'B', 8 to 'W')
 
         check.forEach { (rank, color) ->

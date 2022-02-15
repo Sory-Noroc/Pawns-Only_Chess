@@ -6,6 +6,9 @@ class Mediator(private val player1: Player, private val player2: Player) {
         private set
 
     fun currentPrompt(): String {
+        /**
+         * Returns the message to be displayed for the player that turns now
+         */
         return turner.name + prompt
     }
 
@@ -13,19 +16,14 @@ class Mediator(private val player1: Player, private val player2: Player) {
         turner = if (turner == player1) player2 else player1
     }
 
-    private fun getByColor(color: Char): Player {
-        return if (player1.pawnColor == color) player1 else player2
-    }
-
     fun hasValidInput(input: String): Boolean {
-
+        /**
+         * Check is the start and destination squares are actually on the board,
+         * otherwise it means an invalid input
+         */
         return if (input.matches(Regex("^[a-h][1-8][a-h][1-8]$"))) true else {
             println("Invalid Input")
             false
         }
-    }
-
-    fun getOtherPlayer(): Player {
-        return if (turner.pawnColor == 'W') getByColor('B') else turner
     }
 }

@@ -1,6 +1,6 @@
 package chess
 
-class Pawn(val color: Char, var x: Int, var y: Int) {
+class Pawn(val color: Char, private var x: Int, private var y: Int) {
     private val hasFirstMove: Boolean
         get() {
         return moves == 0
@@ -10,7 +10,10 @@ class Pawn(val color: Char, var x: Int, var y: Int) {
 
 
     fun isValidMove(destination: Square): Boolean {
-        // Checks first move and if the pawn will remain on same col
+        /**
+         * Check the pawn is moving for the first time, being capable of moving
+         * 2 squares, or 1 square forward in any other case
+         */
         val subtraction = destination.y - y
         val difference = if (color == 'W') subtraction else -subtraction
         return if (x == destination.x && destination.pawn == null) {
@@ -27,6 +30,9 @@ class Pawn(val color: Char, var x: Int, var y: Int) {
     }
 
     private fun checkCaptureDistance(other: Pawn?): Boolean {
+        /**
+         * Checks if we are trying to capture a valid pawn, which sits diagonally
+         */
         return if (other != null && other.x in listOf(x + 1, x - 1)) {
             when (color) {
                 'W' -> y + 1 == other.y
@@ -37,8 +43,11 @@ class Pawn(val color: Char, var x: Int, var y: Int) {
     }
 
     fun checkCapture(other: Pawn?): Boolean {
+        /**
+         * Check the destination of the pawn we want to take, and if it is
+         * of the opposite color
+         */
         return when (color) {
-            // Check the other sq has a pawn, and also of the opp color
             'W' -> {
                 checkCaptureDistance(other) && other?.color == 'B'
             }
