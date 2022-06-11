@@ -11,16 +11,16 @@ fun main() {
     println(TITLE)
 
     println("First Player's name:")
-    val player1 = Player(readLine()!!, 'W')
+    val player1 = Player((readLine() ?: "P1"), 'W')
     println("Second Player's name:")
-    val player2 = Player(readLine()!!, 'B')
+    val player2 = Player((readLine() ?: "P2"), 'B')
 
     val mediator = Mediator(player1, player2)
     println(table)
 
     while (true) {
         println(mediator.currentPrompt())
-        val input = readLine()!!
+        val input = readLine() ?: ""
         
         if (input == "exit") {
             break
