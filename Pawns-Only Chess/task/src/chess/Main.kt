@@ -26,10 +26,10 @@ fun main() {
             break
         }
         else if (mediator.hasValidInput(input)) {
-            mediator.changeTurn()
             val response = table.checkAndMove(mediator.turner, input)
             if (response == "Well") {
                 println(table)
+                mediator.changeTurn()
                 if (table.isGameOver(mediator)) {
                     break
                 }
